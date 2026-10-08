@@ -1,0 +1,33 @@
+{
+  "site": {
+    "name": "ATELIER & ARTIFACT",
+    "tagline": "Architectural Objects & Sculptural Decor",
+    "description": "Curated handcrafted interior decor, ceramics, and stone artifacts.",
+    "currency": "INR",
+    "currencySymbol": "₹"
+  },
+  "nav": [
+    { "label": "Gallery", "href": "/shop" },
+    { "label": "Categories", "href": "/#categories" },
+    { "label": "About", "href": "/#story" }
+  ],
+  "hero": {
+    "title": "Sculptural Objects for Mindful Spaces",
+    "subtitle": "Handcrafted ceramics, raw stone artifacts, and minimalist decor curated from master artisans.",
+    "cta": "Explore Collection",
+    "ctaHref": "/shop",
+    "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1600"
+  },
+  "trust": [
+    "✦ Artisanal Small-Batch Craftsmanship",
+    "✦ Express Pan-India Delivery",
+    "✦ 100% Sustainable Packaging",
+    "✦ Authenticity Guaranteed"
+  ],
+  "story": {
+    "title": "Where Material Meets Heritage",
+    "body": "Every piece in our gallery is ethically sourced and individually hand-formed using ancestral pottery, stone carving, and metal molding techniques.",
+    "cta": "Read Our Philosophy",
+    "image": "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&q=80&w=1000"
+  }
+}
