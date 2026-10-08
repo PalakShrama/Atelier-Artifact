@@ -23,7 +23,7 @@ export default {
       validation: (Rule) => Rule.required().min(0),
     },
     {
-      name: 'featured',
+      name: 'isFeatured',
       title: 'Featured Piece',
       type: 'boolean',
       initialValue: false,
@@ -33,6 +33,11 @@ export default {
       title: 'Category',
       type: 'reference',
       to: [{ type: 'category' }],
+    },
+    {
+      name: 'imageUrl',
+      title: 'External Image URL',
+      type: 'url',
     },
     {
       name: 'images',

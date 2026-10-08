@@ -52,26 +52,38 @@ export default async function Home() {
           <section id="categories" className="pt-24">
             <h2 className="font-serif text-3xl text-neutral-100 mb-8">Browse Categories</h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {categories.map((c) => (
-                <Link
-                  key={c._id}
-                  href={`/shop?category=${c.slug}`}
-                  className="group relative h-64 overflow-hidden rounded-xl border border-white/10 bg-neutral-900"
-                >
-                  {c.image && (
-                    <Image
-                      src={urlFor(c.image)}
-                      alt={c.name}
-                      fill
-                      className="object-cover brightness-75 transition duration-500 group-hover:scale-105"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                  <span className="absolute bottom-6 left-6 font-serif text-2xl text-amber-100">
-                    {c.name}
-                  </span>
-                </Link>
-              ))}
+              {categories.map((c) => {
+                // Support both direct imageUrl string and native Sanity asset image
+                const categoryImg = c.imageUrl
+                  ? c.imageUrl
+                  : c.image
+                  ? urlFor(c.image).url()
+                  : '/placeholder.jpg';
+                
+                const categoryTitle = c.title || c.name || 'Category';
+
+                return (
+                  <Link
+                    key={c._id}
+                    href={`/shop?category=${c.slug}`}
+                    className="group relative h-64 overflow-hidden rounded-xl border border-white/10 bg-neutral-900"
+                  >
+                    {categoryImg && (
+                      <Image
+                        src={categoryImg}
+                        alt={categoryTitle}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover brightness-75 transition duration-500 group-hover:scale-105"
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                    <span className="absolute bottom-6 left-6 font-serif text-2xl text-amber-100">
+                      {categoryTitle}
+                    </span>
+                  </Link>
+                );
+              })}
             </div>
           </section>
         )}
