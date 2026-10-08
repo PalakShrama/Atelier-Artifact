@@ -1,0 +1,28 @@
+[
+  {
+    "_id": "product-1",
+    "_type": "product",
+    "title": "Minimalist Ceramic Vase",
+    "slug": {
+      "_type": "slug",
+      "current": "minimalist-ceramic-vase"
+    },
+    "price": 2500,
+    "description": "Handcrafted ceramic vase with a matte finish.",
+    "inStock": true,
+    "isFeatured": true
+  },
+  {
+    "_id": "product-2",
+    "_type": "product",
+    "title": "Abstract Table Lamp",
+    "slug": {
+      "_type": "slug",
+      "current": "abstract-table-lamp"
+    },
+    "price": 4200,
+    "description": "Modern warm-lit table lamp for interior spaces.",
+    "inStock": true,
+    "isFeatured": true
+  }
+]
