@@ -5,39 +5,45 @@ import { getProducts, getCategories } from '../lib/sanity.queries';
 import ProductCard from '../components/ProductCard';
 import { urlFor } from '../lib/sanity';
 
+// Re-fetch from Sanity every 60 seconds so new products show without a redeploy
+export const revalidate = 60;
+
 export default async function Home() {
   const featured = await getProducts({ featured: true });
   const categories = await getCategories();
 
   return (
     <main>
-      {/* Hero Section */}
-      <section className="relative flex min-h-[85vh] items-end overflow-hidden">
-        <Image
-          src={cfg.hero.image}
-          alt={cfg.hero.title}
-          fill
-          priority
-          className="object-cover brightness-50 transition-all duration-1000"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-transparent to-transparent" />
-        <div className="relative mx-auto w-full max-w-7xl px-6 pb-20">
-          <h1 className="max-w-2xl font-serif text-5xl leading-tight md:text-7xl text-amber-50">
-            {cfg.hero.title}
-          </h1>
-          <p className="mt-6 max-w-lg text-lg text-neutral-300 font-light">
-            {cfg.hero.subtitle}
-          </p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link
-              href={cfg.hero.ctaHref}
-              className="rounded-full bg-amber-200 px-8 py-3.5 text-xs font-semibold uppercase tracking-wider text-black transition hover:bg-amber-100"
-            >
-              {cfg.hero.cta}
-            </Link>
+      {/* Hero Section: narrower box, same height */}
+      <div className="mx-auto w-full max-w-10xl px-7 pt-6 ">
+        <section className="relative flex min-h-[85vh] items-end overflow-hidden rounded-2xl">
+          <Image
+            src={cfg.hero.image}
+            alt={cfg.hero.title}
+            fill
+            priority
+            sizes="(max-width: 2024px) 200vw, 2024px"
+            className="object-cover brightness-50 transition-all duration-1000"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+          <div className="relative w-full px-8 pb-22 md:px-12">
+            <h1 className="max-w-2xl font-serif text-5xl leading-tight md:text-7xl text-amber-50">
+              {cfg.hero.title}
+            </h1>
+            <p className="mt-6 max-w-lg text-lg text-neutral-300 font-light">
+              {cfg.hero.subtitle}
+            </p>
+            <div className="mt-8 flex pb-3 flex-wrap gap-4">
+              <Link
+                href={cfg.hero.ctaHref}
+                className="rounded-full bg-amber-200 px-8 py-3.5 text-xs font-semibold uppercase tracking-wider text-black transition hover:bg-amber-100"
+              >
+                {cfg.hero.cta}
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       <div className="mx-auto max-w-7xl px-6">
         {/* Trust Badges */}
@@ -53,13 +59,13 @@ export default async function Home() {
             <h2 className="font-serif text-3xl text-neutral-100 mb-8">Browse Categories</h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {categories.map((c) => {
-                // Support both direct imageUrl string and native Sanity asset image
+                // urlFor already returns a URL string, so no .url() here
                 const categoryImg = c.imageUrl
                   ? c.imageUrl
                   : c.image
-                  ? urlFor(c.image).url()
+                  ? urlFor(c.image)
                   : '/placeholder.jpg';
-                
+
                 const categoryTitle = c.title || c.name || 'Category';
 
                 return (
@@ -68,15 +74,13 @@ export default async function Home() {
                     href={`/shop?category=${c.slug}`}
                     className="group relative h-64 overflow-hidden rounded-xl border border-white/10 bg-neutral-900"
                   >
-                    {categoryImg && (
-                      <Image
-                        src={categoryImg}
-                        alt={categoryTitle}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover brightness-75 transition duration-500 group-hover:scale-105"
-                      />
-                    )}
+                    <Image
+                      src={categoryImg}
+                      alt={categoryTitle}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover brightness-75 transition duration-500 group-hover:scale-105"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
                     <span className="absolute bottom-6 left-6 font-serif text-2xl text-amber-100">
                       {categoryTitle}
@@ -88,7 +92,7 @@ export default async function Home() {
           </section>
         )}
 
-        {/* Featured Artifacts Section */}
+        {/* Featured Artifacts Section
         <section id="shop" className="pt-24">
           <div className="flex items-end justify-between mb-12">
             <div>
@@ -106,12 +110,18 @@ export default async function Home() {
               ))}
             </div>
           )}
-        </section>
+        </section> */}
 
         {/* Story Section */}
         <section id="story" className="my-28 grid overflow-hidden rounded-2xl border border-white/10 bg-neutral-900/40 md:grid-cols-2">
           <div className="relative min-h-[400px]">
-            <Image src={cfg.story.image} alt="Craftsmanship" fill className="object-cover" />
+            <Image
+              src={cfg.story.image}
+              alt="Craftsmanship"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
           </div>
           <div className="flex flex-col justify-center p-10 md:p-16">
             <h2 className="font-serif text-4xl text-amber-100">{cfg.story.title}</h2>
